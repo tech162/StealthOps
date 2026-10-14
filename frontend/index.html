@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StealthOps</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== MAIN MENU SCREEN ==================== -->
+    <section id="menu-screen" class="screen active">
+        <div class="menu-box">
+            <p class="eyebrow">PHANTOM UNIT // CLASSIFIED</p>
+            <h1 class="title">STEALTHOPS</h1>
+            <p class="subtitle">A Stealth-Based Heist Game</p>
+
+            <p class="story">
+                Year 2031. Obsidian Dynamics has built <strong>NIGHTFALL</strong>, a weapon core
+                hidden deep inside its research facility. You are <strong>Agent SHADOW</strong>.
+                Break through the Security Wing, raid the Research Laboratory and crack the Vault.
+                Steal the core and get out before the alarm reaches 100%.
+            </p>
+
+            <div class="menu-buttons">
+                <button id="btn-start" class="btn btn-primary">Start Mission</button>
+                <button id="btn-continue" class="btn">Continue Mission</button>
+                <button id="btn-instructions" class="btn">Instructions</button>
+            </div>
+            <p id="continue-note" class="small-note"></p>
+
+            <h2 class="section-label">Select level</h2>
+            <div class="level-cards">
+                <button class="level-card" data-level="1">
+                    <span class="level-num">01</span>
+                    <span class="level-name">The Security Wing</span>
+                    <span class="level-diff easy">Easy</span>
+                </button>
+                <button class="level-card" data-level="2">
+                    <span class="level-num">02</span>
+                    <span class="level-name">The Research Laboratory</span>
+                    <span class="level-diff medium">Medium</span>
+                </button>
+                <button class="level-card" data-level="3">
+                    <span class="level-num">03</span>
+                    <span class="level-name">The Vault</span>
+                    <span class="level-diff hard">Hard</span>
+                </button>
+            </div>
+
+            <p class="best-score">Best score: <span id="best-score">0</span></p>
+        </div>
+    </section>
+
+    <!-- ==================== GAME SCREEN ==================== -->
+    <section id="game-screen" class="screen">
+        <header class="top-bar">
+            <div>
+                <p class="eyebrow" id="level-label">LEVEL 1 / 3</p>
+                <h2 id="level-title">The Security Wing</h2>
+            </div>
+            <div class="objective">
+                <span class="panel-label">Objective</span>
+                <span id="objective-text">-</span>
+            </div>
+            <div class="top-buttons">
+                <button id="btn-pause" class="btn btn-small">Pause (P)</button>
+                <button id="btn-restart" class="btn btn-small">Restart (R)</button>
+                <button id="btn-menu" class="btn btn-small">Menu</button>
+            </div>
+        </header>
+
+        <main class="game-layout">
+            <!-- Left panel: the agent -->
+            <aside class="panel">
+                <div class="stat">
+                    <div class="stat-head"><span class="panel-label">Health</span><span id="health-value">100</span></div>
+                    <div class="bar"><div id="health-bar" class="bar-fill health"></div></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-head"><span class="panel-label">Noise</span><span id="noise-value">0</span></div>
+                    <div id="noise-meter" class="noise-meter"></div>
+                    <p class="hint">Guards hear you at 5+</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-head"><span class="panel-label">Score</span></div>
+                    <p id="score-value" class="big-number">0</p>
+                </div>
+                <div class="stat">
+                    <span class="panel-label">Inventory</span>
+                    <ul id="inventory-list" class="inventory"></ul>
+                </div>
+            </aside>
+
+            <!-- Centre: the map -->
+            <div class="map-area">
+                <div id="map" class="map"></div>
+                <div class="pad" aria-label="On-screen controls">
+                    <button class="pad-btn" data-key="up" title="Up (W)">&#9650;</button>
+                    <button class="pad-btn" data-key="left" title="Left (A)">&#9664;</button>
+                    <button class="pad-btn" data-key="wait" title="Wait (Space)">WAIT</button>
+                    <button class="pad-btn" data-key="right" title="Right (D)">&#9654;</button>
+                    <button class="pad-btn" data-key="down" title="Down (S)">&#9660;</button>
+                    <label class="run-toggle"><input type="checkbox" id="run-toggle"> Run (loud)</label>
+                </div>
+            </div>
+
+            <!-- Right panel: alert, log, legend -->
+            <aside class="panel">
+                <div class="stat">
+                    <div class="stat-head"><span class="panel-label">Alert level</span><span id="alert-value">0%</span></div>
+                    <div class="bar alert-track"><div id="alert-bar" class="bar-fill alert"></div></div>
+                    <p class="hint">100% = lockdown</p>
+                </div>
+                <div class="stat">
+                    <span class="panel-label">Mission log</span>
+                    <ul id="log" class="log"></ul>
+                </div>
+                <div class="stat">
+                    <span class="panel-label">Legend</span>
+                    <ul class="legend">
+                        <li><span class="tile mini player"></span> You</li>
+                        <li><span class="tile mini guard dir-right"></span> Guard</li>
+                        <li><span class="tile mini floor vision"></span> Guard can see</li>
+                        <li><span class="tile mini floor"><span class="key key-a"></span></span> Keycard</li>
+                        <li><span class="tile mini door door-a">A</span> Locked door</li>
+                        <li><span class="tile mini floor"><span class="target"></span></span> Target</li>
+                        <li><span class="tile mini exit"></span> Exit</li>
+                        <li><span class="tile mini floor"><span class="medkit"></span></span> Medkit</li>
+                        <li><span class="tile mini creaky"></span> Creaky floor</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </section>
+
+    <!-- ==================== POP-UP WINDOW (briefing, win, lose, pause, help) ==================== -->
+    <div id="overlay" class="overlay hidden">
+        <div class="modal">
+            <p id="modal-eyebrow" class="eyebrow"></p>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+            <div id="modal-buttons" class="modal-buttons"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
