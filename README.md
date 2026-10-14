@@ -449,14 +449,6 @@ General tips:
 The code is in `Game::saveCheckpoint`, `Game::loadCheckpoint`, `Game::deleteSave`,
 `Game::loadBestScore` and `Game::saveBestScore` in `src/Game.cpp`.
 
-### Browser version
-
-The browser version saves the same three values in the browser's own storage
-(`localStorage`), because a web page is not allowed to write files on your disk.
-The **Continue Mission** button is enabled when a save exists.
-
----
-
 ## 14. The C++ classes explained
 
 ```
@@ -532,39 +524,3 @@ Only walls, floor, creaky floor and the exit stay in the `map` vector.
 
 ---
 
-## 16. Common errors and solutions
-
-| Problem | Cause | Solution |
-|---|---|---|
-| `'g++' is not recognized as an internal or external command` | The compiler is not installed or not in PATH | Follow [Install g++](#install-g-mingw-w64-through-msys2). Close and reopen VS Code after changing PATH. |
-| `compile.bat : The term 'compile.bat' is not recognized` | PowerShell needs `.\` for files in the current folder | Type `.\compile.bat` |
-| `fatal error: Game.h: No such file or directory` | `-Iinclude` missing, or terminal is in the wrong folder | Run the command from the `StealthOps` folder (the one containing `include`). Use `cd` to get there. |
-| `undefined reference to ...` | Not all `.cpp` files were given to g++ | Use `compile.bat` or the full command in section 8 |
-| `cannot open output file StealthOps.exe: Permission denied` | The game is still running | Close the game window (or press `q` then `5`), then compile again |
-| Windows/antivirus warns about `StealthOps.exe` | New unknown programs are sometimes flagged | It is your own program; allow it. |
-| Nothing happens when I type in the console | The console waits for Enter | Type the keys, then press **Enter** |
-| The map does not fit in the terminal | Terminal panel is too small | Maximise the terminal panel or run `StealthOps.exe` by double-clicking it |
-| "No saved mission found" | You have not started a level yet, or you finished the game | Start a new mission; it saves at the start of each level |
-| Browser: keys do nothing | The page does not have keyboard focus, or a pop-up is open | Click on the page once, close the pop-up (Begin / Resume) |
-| Browser: Continue Mission is greyed out | No save yet, or the browser blocks storage (private window) | Play normally in a non-private window |
-| Browser: map too small / too large | Screen size | Use `Ctrl` + `+` or `Ctrl` + `-` |
-
-
-## 18. What was tested
-
-Tested on Linux with g++ 13 (the same compiler family as MinGW) and in headless Chromium:
-
-- The C++ code compiles with no warnings using `-std=c++17 -Wall -Wextra -pedantic`
-  (it also compiles as C++11).
-- A complete game was played from the menu through all three levels to the victory screen,
-  automatically, on several random seeds, without being spotted.
-- Walls and map edges, keycard pickup, locked doors (with and without the key), exit without
-  the target, guard vision, noise and hearing, getting caught, health reaching 0,
-  alert reaching 100% (lockdown), retry, quit to menu, continue from save, level select,
-  instructions, best score saving and save deletion after victory.
-- Browser version: all buttons, keyboard controls, on-screen controls, pause/resume,
-  restart, game over, retry, lockdown, level select, continue, and victory. No JavaScript errors.
-
-Not tested: building and running on an actual Windows computer (the `compile.bat` file and
-`system("cls")` screen clearing are Windows-specific). Please run `compile.bat` once on your
-laptop before the demo.
